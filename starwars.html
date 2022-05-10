@@ -6,14 +6,40 @@
         html {
             zoom: 150%;
         }
+        .bg {
+            /* The image used */
+            background-image: url('https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/478EAE3F2F12E38C93EB72C1F9A1DD04C083CA490474C12FB9398738B93851D8/scale?width=1200&aspectRatio=1.78&format=jpeg');
+
+            /* Full height */
+            height: 100%; 
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }        
     </style>
     <script type="text/javascript">
         function speak(message) {
             var msg = new SpeechSynthesisUtterance(message)
             window.speechSynthesis.speak(msg)
         }
+
+        function playsegment(url, startTime, endTime) {
+            var audio = new Audio(url)
+            var segmentEnd = endTime;
+            audio.addEventListener('timeupdate', function (){
+                if (segmentEnd && audio.currentTime >= segmentEnd) {
+                    audio.pause();
+                }   
+                console.log(audio.currentTime);
+            }, false);
+            audio.currentTime = startTime;
+            audio.play();
+        }
         function checkinputs() {
             var inputs = document.querySelectorAll(".word");
+            var victory = false;
             for (const input of inputs) {
                 var pattern = input.getAttribute('pattern').toUpperCase();
                 var previous =  input.getAttribute('previous').toUpperCase()
@@ -22,12 +48,16 @@
                 {
                     if (pattern === value) {
                         input.setAttribute("style", "background-color:GreenYellow");
+                        playsegment("http://soundfxcenter.com/movies/star-wars/8d82b5_Star_Wars_Main_Theme_Song.mp3", 7.4, 12.6);
                     }
                     else if (pattern.startsWith(value)) {
                         input.setAttribute("style", "");
                     }
                     else {
                         input.setAttribute("style", "background-color:red");
+                        if (previous.length < value.length) {
+                            playsegment("https://www.soundboard.com/mediafiles/22/228946-f4ef2337-dbc4-488b-98a5-d75d305e17b8.mp3", 0, 30);
+                        }
                     }
                 }
                 input.setAttribute("previous", value);
@@ -44,7 +74,10 @@
     </script>
 </head>
 
-<body id="content">
+<body>
+    <div class="bg">
+        <div id="content"></div>
+    </div>
 </body>
 
 </html>
