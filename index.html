@@ -2,6 +2,11 @@
 
 <head>
     <meta charset="ISO-8859-1">
+    <style>
+        html {
+            zoom: 150%;
+        }
+    </style>
     <script type="text/javascript">
         function speak(message) {
             var msg = new SpeechSynthesisUtterance(message)
@@ -12,16 +17,13 @@
             for (const input of inputs) {
                 var pattern = input.getAttribute('pattern').toUpperCase();
                 var value = input.value.toUpperCase();
-                if (pattern === value)
-                {
+                if (pattern === value) {
                     input.setAttribute("style", "background-color:GreenYellow");
                 }
-                else if (pattern.startsWith(value))
-                {
+                else if (pattern.startsWith(value)) {
                     input.setAttribute("style", "");
                 }
-                else
-                {
+                else {
                     input.setAttribute("style", "background-color:red");
                 }
             }
