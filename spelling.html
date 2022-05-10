@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <script type="text/javascript">
+        function speak(message) {
+            var msg = new SpeechSynthesisUtterance(message)
+            window.speechSynthesis.speak(msg)
+        }
+        function checkinputs() {
+            var inputs = document.querySelectorAll(".word");
+            for (const input of inputs) {
+                var pattern = input.getAttribute('pattern').toUpperCase();
+                var value = input.value.toUpperCase();
+                if (pattern === value)
+                {
+                    input.setAttribute("style", "background-color:GreenYellow");
+                }
+                else if (pattern.startsWith(value))
+                {
+                    input.setAttribute("style", "");
+                }
+                else
+                {
+                    input.setAttribute("style", "background-color:red");
+                }
+            }
+        }
+        window.onload = () => {
+            var content = document.getElementById('content');
+            var params = location.search.substr(1).split('&');
+            for (var i = 0; i < params.length; i++) {
+                var word = params[i];
+                content.innerHTML += `<input type="button" onclick="speak('${word}')" value="&#128264;" /> <input class="word" pattern="${word}" onkeyup="checkinputs()" /> <br />`
+            }
+        }
+    </script>
+</head>
+
+<body id="content">
+</body>
+
+</html>
