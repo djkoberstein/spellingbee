@@ -37,6 +37,7 @@
             audio.currentTime = startTime;
             audio.play();
         }
+        soundIndex = 0
         function checkinputs() {
             var inputs = document.querySelectorAll(".word");
             var victory = false;
@@ -48,7 +49,7 @@
                 {
                     if (pattern === value) {
                         input.setAttribute("style", "background-color:GreenYellow");
-                        playsegment("https://www.thesoundarchive.com/starwars/star-wars-theme-song.mp3", 6.9, 12.6);
+                        playsegment(fx_theme, 6.9, 12.6);
                     }
                     else if (pattern.startsWith(value)) {
                         input.setAttribute("style", "");
@@ -56,7 +57,13 @@
                     else {
                         input.setAttribute("style", "background-color:red");
                         if (previous.length < value.length) {
-                            playsegment("https://www.soundboard.com/mediafiles/22/228946-f4ef2337-dbc4-488b-98a5-d75d305e17b8.mp3", 0, 30);
+                            if (soundIndex == 0) {
+                                playsegment(fx_lightsaber, 0, 30);
+                            }
+                            else if (soundIndex == 1) {
+                                playsegment(fx_roger_roger, 0, 30)
+                            }
+                            soundIndex = (soundIndex + 1) % 2
                         }
                     }
                 }
@@ -64,6 +71,10 @@
             }
         }
         window.onload = () => {
+            fx_roger_roger = "roger-roger.mp3"
+            fx_lightsaber = "https://www.soundboard.com/mediafiles/22/228946-f4ef2337-dbc4-488b-98a5-d75d305e17b8.mp3"
+            fx_theme = "https://www.thesoundarchive.com/starwars/star-wars-theme-song.mp3"
+
             var content = document.getElementById('content');
             var params = location.search.substr(1).split('&');
             for (var i = 0; i < params.length; i++) {
